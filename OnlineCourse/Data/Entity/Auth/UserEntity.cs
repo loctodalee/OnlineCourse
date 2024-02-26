@@ -38,6 +38,7 @@ namespace OnlineCourse.Data.Entity.Auth
         public string? RefreshToken { get; set; }
 
         public ICollection<UserPermissionEntity>? Permissions { get; set; }
+        public ICollection<RefreshTokens>? RefreshTokens { get; set; }
 
     }
 }

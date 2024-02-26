@@ -17,6 +17,7 @@ namespace OnlineCourse.Data
         public DbSet<PermissionEntity> Permissions { get; set; }
         public DbSet<PermissionActionEntity> PermissionAction { get; set; }
         public DbSet<ActEntity> Actions { get; set; }
+        public DbSet<RefreshTokens> RefreshTokens { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

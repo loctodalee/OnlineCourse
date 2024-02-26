@@ -11,6 +11,7 @@ namespace OnlineCourse.Repository
         IRepository<ActEntity> ActionRepository { get; }
         IRepository<UserPermissionEntity> UserPerRepository { get; }
         IRepository<PermissionActionEntity> PerActionRepository { get; }
+        IRepository<RefreshTokens> RefreshTokensRepository { get; }
         void SaveChanges();
     }
     public class UnitOfWork : IUnitOfWork
@@ -21,6 +22,7 @@ namespace OnlineCourse.Repository
         private ActRepository _actionRepository;
         private UserPerRepository _userPerRepository;
         private PerActionRepository _perActionRepository;
+        private RefreshTokensRepository _refreshTokensRepository;
 
         public UnitOfWork(OnlineCourseDbContext context)
         {
@@ -89,6 +91,19 @@ namespace OnlineCourse.Repository
                     _perActionRepository = new PerActionRepository(db);
                 }
                 return this._perActionRepository;
+            }
+        }
+
+        private IRepository<RefreshTokens> refreshTokensRepository;
+        public IRepository<RefreshTokens> RefreshTokensRepository
+        {
+            get
+            {
+                if(refreshTokensRepository == null)
+                {
+                    _refreshTokensRepository = new RefreshTokensRepository(db);
+                }
+                return this._refreshTokensRepository;
             }
         }
         public void SaveChanges()

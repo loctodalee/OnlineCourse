@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineCourse.Data.Model.Auth;
 using OnlineCourse.Data.Model.Auth.Request;
@@ -17,6 +18,7 @@ namespace OnlineCourse.Controllers
         }
 
         [HttpGet("/api/[controller]/get-all-users")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Add Course")]
         public async Task<IActionResult> GetUsers()
         {
             try

@@ -12,7 +12,7 @@ using OnlineCourse.Data;
 namespace OnlineCourse.Migrations
 {
     [DbContext(typeof(OnlineCourseDbContext))]
-    [Migration("20240225151010_Init")]
+    [Migration("20240226075217_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,6 +103,37 @@ namespace OnlineCourse.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tbl_Permission");
+                });
+
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Auth.RefreshTokens", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastUpdateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("OnlineCourse.Data.Entity.Auth.UserEntity", b =>
@@ -215,6 +246,17 @@ namespace OnlineCourse.Migrations
                     b.Navigation("Permission");
                 });
 
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Auth.RefreshTokens", b =>
+                {
+                    b.HasOne("OnlineCourse.Data.Entity.Auth.UserEntity", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("OnlineCourse.Data.Entity.Auth.UserPermissionEntity", b =>
                 {
                     b.HasOne("OnlineCourse.Data.Entity.Auth.PermissionEntity", "Permission")
@@ -242,6 +284,8 @@ namespace OnlineCourse.Migrations
             modelBuilder.Entity("OnlineCourse.Data.Entity.Auth.UserEntity", b =>
                 {
                     b.Navigation("Permissions");
+
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

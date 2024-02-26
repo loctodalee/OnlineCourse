@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Nelibur.ObjectMapper;
 using OnlineCourse.Data;
 using OnlineCourse.Data.Entity.Auth;
@@ -13,15 +15,43 @@ using OnlineCourse.Services.Auth.NewFolder;
 using OnlineCourse.Services.Email;
 using OnlineCourse.Services.Email.Interface;
 using OnlineCourse.Util;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var securityKey = builder.Configuration.GetSection("SecurityKey").ToString();
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Description = "Bearer Authentication with JWT Token",
+        Type = SecuritySchemeType.Http
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            new List<string>()
+        }
+    });
+});
 
 //SendMailConfig
 IConfiguration configuration = builder.Configuration;
@@ -40,6 +70,7 @@ builder.Services.AddTransient<IRepository<PermissionEntity>, PermissionRepositor
 builder.Services.AddTransient<IRepository<ActEntity>, ActRepository>();
 builder.Services.AddTransient<IRepository<UserPermissionEntity>, UserPerRepository>();
 builder.Services.AddTransient<IRepository<PermissionActionEntity>, PerActionRepository>();
+builder.Services.AddTransient<IRepository<RefreshTokens>, RefreshTokensRepository>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<IActService, ActService>();
@@ -47,11 +78,23 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IUserPerService, UserPerService>();
 builder.Services.AddScoped<IPerActionService, PerActionService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddSingleton<IUtilService, UtilService>();
 
+builder.Services.AddAuthentication("Bearer").AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = false,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey))
+    };
+});
 //Tiny mapper
 TinyMapper.Bind<List<ActEntity>, List<ActModel>>();
 TinyMapper.Bind<ActModel, ActEntity>();
