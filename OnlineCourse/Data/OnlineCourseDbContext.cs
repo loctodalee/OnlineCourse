@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineCourse.Data.Entity.Auth;
+using OnlineCourse.Data.Entity.Course;
+using OnlineCourse.Data.Entity.Order;
 
 namespace OnlineCourse.Data
 {
@@ -18,6 +20,10 @@ namespace OnlineCourse.Data
         public DbSet<PermissionActionEntity> PermissionAction { get; set; }
         public DbSet<ActEntity> Actions { get; set; }
         public DbSet<RefreshTokens> RefreshTokens { get; set; }
+        public DbSet<CourseEntity> Courses { get; set; }
+        public DbSet<CourseUserEntity> CourseUsers { get; set; }
+        public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<LessonEntity> Lessons { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

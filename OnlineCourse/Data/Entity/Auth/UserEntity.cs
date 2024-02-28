@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using OnlineCourse.Data.Entity.Course;
+using OnlineCourse.Data.Entity.Order;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -39,6 +41,8 @@ namespace OnlineCourse.Data.Entity.Auth
 
         public ICollection<UserPermissionEntity>? Permissions { get; set; }
         public ICollection<RefreshTokens>? RefreshTokens { get; set; }
+        public ICollection<OrderEntity>? Orders { get; set; }
+        public ICollection<CourseUserEntity>? Courses { get; set;}
 
     }
 }

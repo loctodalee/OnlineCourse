@@ -1,6 +1,10 @@
 ﻿using OnlineCourse.Data;
 using OnlineCourse.Data.Entity.Auth;
+using OnlineCourse.Data.Entity.Course;
+using OnlineCourse.Data.Entity.Order;
 using OnlineCourse.Repository.Auth;
+using OnlineCourse.Repository.Course;
+using OnlineCourse.Repository.Order;
 
 namespace OnlineCourse.Repository
 {
@@ -12,6 +16,10 @@ namespace OnlineCourse.Repository
         IRepository<UserPermissionEntity> UserPerRepository { get; }
         IRepository<PermissionActionEntity> PerActionRepository { get; }
         IRepository<RefreshTokens> RefreshTokensRepository { get; }
+        IRepository<CourseEntity> CourseRepository { get; }
+        IRepository<CourseUserEntity> CourseUserRepository { get; }
+        IRepository<OrderEntity> OrderRepository { get; }
+        IRepository<LessonEntity> LessonRepository { get; }
         void SaveChanges();
     }
     public class UnitOfWork : IUnitOfWork
@@ -23,6 +31,10 @@ namespace OnlineCourse.Repository
         private UserPerRepository _userPerRepository;
         private PerActionRepository _perActionRepository;
         private RefreshTokensRepository _refreshTokensRepository;
+        private CourseRepository _courseRepository;
+        private CourseUserRepository _courseUserRepository;
+        private OrderRepository _orderRepository;
+        private LessonRepository _lessonRepository;
 
         public UnitOfWork(OnlineCourseDbContext context)
         {
@@ -106,6 +118,59 @@ namespace OnlineCourse.Repository
                 return this._refreshTokensRepository;
             }
         }
+
+        private IRepository<CourseEntity> courseRepository;
+        public IRepository<CourseEntity> CourseRepository
+        {
+            get
+            {
+                if(courseRepository == null)
+                {
+                    _courseRepository = new CourseRepository(db);
+                }
+                return this._courseRepository;
+            }
+        }
+        
+        private IRepository<CourseUserEntity> courseUserRepository;
+        public IRepository<CourseUserEntity> CourseUserRepository
+        {
+            get
+            {
+                if (courseUserRepository == null)
+                {
+                    _courseUserRepository = new CourseUserRepository(db);
+                }
+                return this._courseUserRepository;
+            }
+        }
+
+        private IRepository<OrderEntity> orderRepository;
+        public IRepository<OrderEntity> OrderRepository
+        {
+            get
+            {
+                if(orderRepository == null)
+                {
+                    _orderRepository = new OrderRepository(db);
+                }
+                return this._orderRepository;
+            }
+        }
+
+        private IRepository<LessonEntity> lessonRepository;
+        public IRepository<LessonEntity> LessonRepository
+        {
+            get
+            {
+                if(lessonRepository == null)
+                {
+                    lessonRepository = new LessonRepository(db);
+                }
+                return this._lessonRepository;
+            }
+        }
+
         public void SaveChanges()
         {
             db.SaveChanges();
