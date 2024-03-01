@@ -13,6 +13,11 @@ namespace OnlineCourse.Services.Course
     {
         private IUnitOfWork _unitOfWork;
 
+        public CourseService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         public async Task<List<CourseModel>> GetAll()
         {
             try
