@@ -225,7 +225,6 @@ namespace OnlineCourse.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("BeginLessonId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreateTimes")
@@ -245,7 +244,7 @@ namespace OnlineCourse.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
+                    b.Property<double?>("Price")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -473,7 +472,7 @@ namespace OnlineCourse.Migrations
             modelBuilder.Entity("OnlineCourse.Data.Entity.Course.LessonEntity", b =>
                 {
                     b.HasOne("OnlineCourse.Data.Entity.Course.CourseEntity", "Course")
-                        .WithMany("Lessons")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -511,7 +510,7 @@ namespace OnlineCourse.Migrations
             modelBuilder.Entity("OnlineCourse.Data.Entity.Order.OrderEntity", b =>
                 {
                     b.HasOne("OnlineCourse.Data.Entity.Course.CourseEntity", "Course")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -547,10 +546,6 @@ namespace OnlineCourse.Migrations
 
             modelBuilder.Entity("OnlineCourse.Data.Entity.Course.CourseEntity", b =>
                 {
-                    b.Navigation("Lessons");
-
-                    b.Navigation("Orders");
-
                     b.Navigation("UserCourseLessonProgresses");
                 });
 

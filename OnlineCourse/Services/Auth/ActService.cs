@@ -18,7 +18,7 @@ namespace OnlineCourse.Services.Auth
         {
             this.unitOfWork = unitOfWork;
         }
-        
+
         public async Task<List<ActModel>> GetActions()
         {
             try
@@ -27,7 +27,8 @@ namespace OnlineCourse.Services.Auth
                 var validAction = actions.Where(i => i.IsActive == true).ToList();
                 var actionModels = TinyMapper.Map<List<ActModel>>(validAction);
                 return actionModels;
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -48,7 +49,8 @@ namespace OnlineCourse.Services.Auth
                 unitOfWork.SaveChanges();
                 var res = TinyMapper.Map<ActModel>(entity);
                 return res;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -63,7 +65,7 @@ namespace OnlineCourse.Services.Auth
                 {
                     throw new Exception("Action not existed !!");
                 }
-               
+
                 var model = TinyMapper.Map<ActModel>(existed);
                 return model;
             }
@@ -81,7 +83,8 @@ namespace OnlineCourse.Services.Auth
                 await unitOfWork.ActionRepository.Update(entity);
                 unitOfWork.SaveChanges();
                 return model;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -92,7 +95,7 @@ namespace OnlineCourse.Services.Auth
             try
             {
                 var existed = await unitOfWork.ActionRepository.GetSingleById(id);
-                if(existed == null)
+                if (existed == null)
                 {
                     throw new Exception("Action not found");
                 }

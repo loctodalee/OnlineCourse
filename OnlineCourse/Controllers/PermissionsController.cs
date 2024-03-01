@@ -6,6 +6,7 @@ using OnlineCourse.Services.Auth.Interface;
 
 namespace OnlineCourse.Controllers
 {
+    [Route("api/permission")]
     [ApiController]
     public class PermissionsController : ControllerBase
     {
@@ -16,7 +17,7 @@ namespace OnlineCourse.Controllers
             permissionService = serviceProvider.GetRequiredService<IPermissionService>();
         }
 
-        [HttpGet("/api/[controller]/get-all-permission")]
+        [HttpGet]
         public async Task<IActionResult> GetAllPermission()
         {
             try
@@ -29,7 +30,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpGet("/api/[controller]/get-permission-by-id/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetPermission([FromRoute]string id)
         {
             try
@@ -42,7 +43,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpPost("/api/[controller]/create-permission")]
+        [HttpPost]
         public async Task<IActionResult> CreatePermission(RequestCreatePermissionModel model)
         {
             try
@@ -55,7 +56,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpPut("/api/[controller]/update-permission")]
+        [HttpPut]
         public async Task<IActionResult> UpdatePermission(PermissionModel model)
         {
             try
@@ -68,7 +69,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpDelete("/api/[controller]/delete-permission")]
+        [HttpDelete]
         public async Task<IActionResult> DeletePermission(string id)
         {
             try

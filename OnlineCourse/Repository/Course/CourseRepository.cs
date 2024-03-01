@@ -6,7 +6,6 @@ namespace OnlineCourse.Repository.Course
 {
     public class CourseRepository : BaseRepository<CourseEntity>
     {
-        private DbSet<CourseEntity> _courses;
         private OnlineCourseDbContext context {  get; set; }
         public CourseRepository(OnlineCourseDbContext context) : base(context)
         {

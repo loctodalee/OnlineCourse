@@ -5,6 +5,7 @@ using OnlineCourse.Services.Auth.Interface;
 
 namespace OnlineCourse.Controllers
 {
+    [Route("api/authentication")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -13,7 +14,7 @@ namespace OnlineCourse.Controllers
         {
             _authenticationService = serviceProvider.GetRequiredService<IAuthenticationService>();
         }
-        [HttpPost("/api/[controller]/login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(RequestLoginModel model)
         {
             try

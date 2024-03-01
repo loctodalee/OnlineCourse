@@ -98,7 +98,7 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ICourseUserService, CourseUserService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-
+builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddSingleton<IUtilService, UtilService>();
