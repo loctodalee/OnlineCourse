@@ -29,12 +29,12 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpGet("/api/[controller]/get-user-permission-by-id/{id}")]
+        [HttpGet("/api/[controller]/get-by-userid/{id}")]
         public async Task<IActionResult> GetById([FromRoute] string id)
         {
             try
             {
-                var result = await _userPerService.GetById(id);
+                var result = await _userPerService.GetByUserId(id);
                 return Ok(result);
             } catch(Exception ex)
             {
@@ -55,25 +55,13 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpPut("/api/[controller]/update-user-permission")]
-        public async Task<IActionResult> UpdateUserPermission(UserPermissionModel model)
-        {
-            try
-            {
-                await _userPerService.UpdateUserPer(model);
-                return Ok("Success");
-            } catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
         [HttpDelete("/api/[controller]/delete-user-permission")]
-        public async Task<IActionResult> DeleteUserPermission(string id)
+        public async Task<IActionResult> DeleteUserPermission(UserPermissionModel model)
         {
             try
             {
-                await _userPerService.DeleteUserPer(id); return Ok("Success");
+                await _userPerService.DeleteUserPer(model); return Ok("Success");
             } catch (Exception ex)
             {
                 return BadRequest(ex.Message);

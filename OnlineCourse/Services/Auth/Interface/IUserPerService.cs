@@ -6,10 +6,9 @@ namespace OnlineCourse.Services.Auth.Interface
     public interface IUserPerService
     {
         Task<List<UserPermissionModel>> GetAll();
-        Task<UserPermissionModel> GetById(string id);
+        Task<List<UserPermissionModel>> GetByUserId(string id);
         Task<UserPermissionModel> CreateUserPer(RequestCreateUserPerModel model);
-        Task UpdateUserPer(UserPermissionModel model);
-        Task DeleteUserPer(string id);
+        Task DeleteUserPer(UserPermissionModel model);
         
     }
 }

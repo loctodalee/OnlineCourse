@@ -51,15 +51,12 @@ namespace OnlineCourse.Migrations
 
             modelBuilder.Entity("OnlineCourse.Data.Entity.Auth.PermissionActionEntity", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<DateTime>("CreateTimes")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ActionId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreateTimes")
-                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -71,7 +68,7 @@ namespace OnlineCourse.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CreateTimes");
 
                     b.HasIndex("ActionId");
 
@@ -196,9 +193,6 @@ namespace OnlineCourse.Migrations
 
             modelBuilder.Entity("OnlineCourse.Data.Entity.Auth.UserPermissionEntity", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("CreateTimes")
                         .HasColumnType("datetime2");
 
@@ -216,13 +210,196 @@ namespace OnlineCourse.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CreateTimes");
 
                     b.HasIndex("PermissionId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("tbl_user_per");
+                });
+
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Course.CourseEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BeginLessonId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastUpdateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tbl_Course");
+                });
+
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Course.CourseUserEntity", b =>
+                {
+                    b.Property<DateTime>("CreateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsTeacher")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastUpdateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CreateTimes");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("tbl_user_course");
+                });
+
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Course.LessonEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastUpdateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NextLessonId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VideoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("tbl_lesson");
+                });
+
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Course.UserCourseLessonProgressEntity", b =>
+                {
+                    b.Property<DateTime>("CreateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsComplete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastUpdateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LessonId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CreateTimes");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("LessonId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("tbl_user_course_lesson_progress");
+                });
+
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Order.OrderEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Buy_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPay")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastUpdateTimes")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("tbl_order");
                 });
 
             modelBuilder.Entity("OnlineCourse.Data.Entity.Auth.PermissionActionEntity", b =>
@@ -274,6 +451,82 @@ namespace OnlineCourse.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Course.CourseUserEntity", b =>
+                {
+                    b.HasOne("OnlineCourse.Data.Entity.Course.CourseEntity", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineCourse.Data.Entity.Auth.UserEntity", "User")
+                        .WithMany("Courses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Course.LessonEntity", b =>
+                {
+                    b.HasOne("OnlineCourse.Data.Entity.Course.CourseEntity", "Course")
+                        .WithMany("Lessons")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Course.UserCourseLessonProgressEntity", b =>
+                {
+                    b.HasOne("OnlineCourse.Data.Entity.Course.CourseEntity", "Course")
+                        .WithMany("UserCourseLessonProgresses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("OnlineCourse.Data.Entity.Course.LessonEntity", "Lesson")
+                        .WithMany("UserCourseLessonProgresses")
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("OnlineCourse.Data.Entity.Auth.UserEntity", "User")
+                        .WithMany("UserCourseLessonProgresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Order.OrderEntity", b =>
+                {
+                    b.HasOne("OnlineCourse.Data.Entity.Course.CourseEntity", "Course")
+                        .WithMany("Orders")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineCourse.Data.Entity.Auth.UserEntity", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("OnlineCourse.Data.Entity.Auth.PermissionEntity", b =>
                 {
                     b.Navigation("Actions");
@@ -281,9 +534,29 @@ namespace OnlineCourse.Migrations
 
             modelBuilder.Entity("OnlineCourse.Data.Entity.Auth.UserEntity", b =>
                 {
+                    b.Navigation("Courses");
+
+                    b.Navigation("Orders");
+
                     b.Navigation("Permissions");
 
                     b.Navigation("RefreshTokens");
+
+                    b.Navigation("UserCourseLessonProgresses");
+                });
+
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Course.CourseEntity", b =>
+                {
+                    b.Navigation("Lessons");
+
+                    b.Navigation("Orders");
+
+                    b.Navigation("UserCourseLessonProgresses");
+                });
+
+            modelBuilder.Entity("OnlineCourse.Data.Entity.Course.LessonEntity", b =>
+                {
+                    b.Navigation("UserCourseLessonProgresses");
                 });
 #pragma warning restore 612, 618
         }

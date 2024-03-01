@@ -20,6 +20,7 @@ namespace OnlineCourse.Repository
         IRepository<CourseUserEntity> CourseUserRepository { get; }
         IRepository<OrderEntity> OrderRepository { get; }
         IRepository<LessonEntity> LessonRepository { get; }
+        IRepository<UserCourseLessonProgressEntity> UserCourseLessonProgressRepository { get;}
         void SaveChanges();
     }
     public class UnitOfWork : IUnitOfWork
@@ -35,6 +36,7 @@ namespace OnlineCourse.Repository
         private CourseUserRepository _courseUserRepository;
         private OrderRepository _orderRepository;
         private LessonRepository _lessonRepository;
+        private UserCourseLessonProgressRepository _userCourseLessonProgressRepository;
 
         public UnitOfWork(OnlineCourseDbContext context)
         {
@@ -168,6 +170,19 @@ namespace OnlineCourse.Repository
                     lessonRepository = new LessonRepository(db);
                 }
                 return this._lessonRepository;
+            }
+        }
+
+        private IRepository<UserCourseLessonProgressEntity> userCourseLessonProgressRepository;
+        public IRepository<UserCourseLessonProgressEntity> UserCourseLessonProgressRepository
+        {
+            get
+            {
+                if(userCourseLessonProgressRepository == null)
+                {
+                    userCourseLessonProgressRepository = new UserCourseLessonProgressRepository(db);
+                }
+                return this._userCourseLessonProgressRepository;
             }
         }
 

@@ -12,6 +12,7 @@ namespace OnlineCourse.Data.Entity
             LastUpdateTimes = DateTime.Now;
             IsActive = true;
         }
+        [Required]
         [Key]
         public string Id { get; set; }
         public DateTime CreateTimes { get; set; }

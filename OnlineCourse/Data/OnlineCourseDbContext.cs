@@ -24,6 +24,7 @@ namespace OnlineCourse.Data
         public DbSet<CourseUserEntity> CourseUsers { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
         public DbSet<LessonEntity> Lessons { get; set; }
+        public DbSet<UserCourseLessonProgressEntity> UserCourseLessonProgress { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,6 +33,30 @@ namespace OnlineCourse.Data
                 .AddJsonFile("appsettings.Development.json")
                 .Build();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("Local"));
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // UserCourseLessonProgressEntity to UserEntity relationship
+            modelBuilder.Entity<UserCourseLessonProgressEntity>()
+                .HasOne(uc => uc.User)
+                .WithMany(u => u.UserCourseLessonProgresses)
+                .HasForeignKey(uc => uc.UserId)
+                .OnDelete(DeleteBehavior.Restrict);  // No action on delete
+
+            // UserCourseLessonProgressEntity to CourseEntity relationship
+            modelBuilder.Entity<UserCourseLessonProgressEntity>()
+                .HasOne(uc => uc.Course)
+                .WithMany(c => c.UserCourseLessonProgresses)
+                .HasForeignKey(uc => uc.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);  // No action on delete
+
+            // UserCourseLessonProgressEntity to LessonEntity relationship
+            modelBuilder.Entity<UserCourseLessonProgressEntity>()
+                .HasOne(uc => uc.Lesson)
+                .WithMany(l => l.UserCourseLessonProgresses)
+                .HasForeignKey(uc => uc.LessonId)
+                .OnDelete(DeleteBehavior.Restrict);  // No action on delete
         }
     }
 }

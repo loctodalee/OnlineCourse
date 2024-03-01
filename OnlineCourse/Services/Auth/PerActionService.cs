@@ -33,17 +33,18 @@ namespace OnlineCourse.Services.Auth
             }
         }
 
-        public async Task<PermissionActionModel> GetById(string id)
+        public async Task<List<PermissionActionModel>> GetByPermissionId(string id)
         {
             try
             {
-                var entity = await unitOfWork.PerActionRepository.GetSingleById(id);
-                if(entity.IsActive == false || entity == null)
+                var list = await unitOfWork.PerActionRepository.GetAll();
+                var listEntity = list.Where(x => x.PermissionId == id && x.IsActive == true).ToList();
+                if(listEntity == null)
                 {
                     throw new Exception("Not Found");
                 }
 
-                var model = TinyMapper.Map<PermissionActionModel>(entity);
+                var model = TinyMapper.Map<List<PermissionActionModel>>(listEntity);
                 return model;
             } catch (Exception ex)
             {
@@ -74,24 +75,13 @@ namespace OnlineCourse.Services.Auth
             }
         }
 
-        public async Task UpdatePerAction(PermissionActionModel model)
-        {
-            try
-            {
-                var entity = TinyMapper.Map<PermissionActionEntity>(model);
-                await unitOfWork.PerActionRepository.Update(entity);
-                unitOfWork.SaveChanges();
-            } catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
 
-        public async Task DeletePerAction(string id)
+        public async Task DeletePerAction(PermissionActionModel model)
         {
             try
             {
-                var exsited = await unitOfWork.PerActionRepository.GetSingleById(id);
+                var list = await unitOfWork.PerActionRepository.GetAll();
+                var exsited = list.Where(x => x.PermissionId == model.PermissionId && x.ActionId == model.ActionId).FirstOrDefault();
                 if (exsited == null)
                 {
                     throw new Exception("Not found" + exsited);

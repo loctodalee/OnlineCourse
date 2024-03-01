@@ -30,16 +30,17 @@ namespace OnlineCourse.Services.Auth
             }
         }
 
-        public async Task<UserPermissionModel> GetById(string id)
+        public async Task<List<UserPermissionModel>> GetByUserId(string id)
         {
             try
             {
-                var result = await _unitOfWork.UserPerRepository.GetSingleById(id);
-                if (result.IsActive == false)
+                var list = await _unitOfWork.UserPerRepository.GetAll();
+                var listEntity = list.Where(x => x.UserId == id && x.IsActive == true).ToList();
+                if (listEntity == null)
                 {
                     throw new Exception("Not found");
                 }
-                var model = TinyMapper.Map<UserPermissionModel>(result);
+                var model = TinyMapper.Map<List<UserPermissionModel>>(listEntity);
                 return model;
             }catch(Exception ex)
             {
@@ -69,24 +70,14 @@ namespace OnlineCourse.Services.Auth
             }
         }
 
-        public async Task UpdateUserPer(UserPermissionModel model)
-        {
-            try
-            {
-                var entity = TinyMapper.Map<UserPermissionEntity>(model);
-                await _unitOfWork.UserPerRepository.Update(entity);
-                _unitOfWork.SaveChanges();
-            } catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
 
-        public async Task DeleteUserPer(string id)
+        public async Task DeleteUserPer(UserPermissionModel model)
         {
             try
             {
-                var existed = await _unitOfWork.UserPerRepository.GetSingleById(id);
+                var list = await _unitOfWork.UserPerRepository.GetAll();
+                var existed = list
+                    .Where(x => x.UserId == model.UserId && x.PermissionId == model.PermissionId && x.IsActive == true).FirstOrDefault();
                 if(existed == null)
                 {
                     throw new Exception("Not found");

@@ -14,22 +14,5 @@ namespace OnlineCourse.Repository.Auth
             this.context = context;
         }
 
-        public override Task Update(PermissionActionEntity entity)
-        {
-            var existed = context.PermissionAction.Find(entity);
-            if (existed == null)
-            {
-                throw new Exception("Permisson_Action is not existed!!");
-            }
-            try
-            {
-                existed.PermissionId = entity.PermissionId;
-                existed.ActionId = entity.ActionId;
-                return base.Update(existed);
-            } catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
     }
 }

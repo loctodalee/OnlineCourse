@@ -14,23 +14,5 @@ namespace OnlineCourse.Repository.Course
             this.context = context;
         }
 
-        public override Task Update(CourseUserEntity entity)
-        {
-            var existed = context.CourseUsers.Find(entity);
-            if (existed == null)
-            {
-                throw new Exception("Course_user is not existed!!");
-            }
-            try
-            {
-                existed.UserId = entity.UserId;
-                existed.CourseId = entity.CourseId;
-                return base.Update(existed);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
     }
 }

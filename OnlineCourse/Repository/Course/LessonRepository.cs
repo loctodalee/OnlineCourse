@@ -27,6 +27,7 @@ namespace OnlineCourse.Repository.Course
                 existed.Title = entity.Title;
                 existed.Description = entity.Description;
                 existed.VideoUrl = entity.VideoUrl;
+                existed.NextLessonId = entity.NextLessonId;
                 return base.Update(existed);
             }
             catch (Exception ex)
