@@ -14,7 +14,7 @@ namespace OnlineCourse.Repository
 
         public virtual async Task Add(T entity)
         {
-           await _context.Set<T>().AddAsync(entity);
+            await _context.Set<T>().AddAsync(entity);
         }
 
         public virtual async Task Update(T entity)
@@ -29,7 +29,17 @@ namespace OnlineCourse.Repository
 
         public virtual async Task<IEnumerable<T>> GetAll()
         {
-            return await _context.Set<T>().ToListAsync();
+            try
+            {
+                return await _context.Set<T>().ToListAsync();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("-----loi-----");
+                Console.WriteLine(ex.Message);
+            }
+            return null;
         }
 
         public virtual async Task<T> GetSingleById(string id)

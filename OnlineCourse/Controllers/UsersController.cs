@@ -8,6 +8,7 @@ using OnlineCourse.Services.Auth.Interface;
 
 namespace OnlineCourse.Controllers
 {
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -17,7 +18,7 @@ namespace OnlineCourse.Controllers
             _userService = serviceProvider.GetRequiredService<IUserService>();
         }
 
-        [HttpGet("/api/[controller]/get-all-users")]
+        [HttpGet]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Add Course")]
         public async Task<IActionResult> GetUsers()
         {
@@ -31,7 +32,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpPost("/api/[controller]/create-user-by-admin")]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateUser(RequestCreateUserModel model)
         {
             try
@@ -44,7 +45,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpPost("/api/[controller]/register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RequestCreateUserModel model)
         {
             try
@@ -57,7 +58,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpPost("/api/[controller]/verify-email")]
+        [HttpPost("verify-email")]
         public async Task<IActionResult> VerifyEmail(RequestVerifyModel model)
         {
             try
@@ -70,7 +71,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpPut("/api/[controller]/update-user")]
+        [HttpPut]
         public async Task<IActionResult> UpdateUser(UserModel model)
         {
             try
@@ -83,7 +84,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpDelete("/api/[controller]/delete-user")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteUser(string id)
         {
             try

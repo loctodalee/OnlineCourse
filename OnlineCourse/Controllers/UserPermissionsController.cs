@@ -6,6 +6,7 @@ using OnlineCourse.Services.Auth.Interface;
 
 namespace OnlineCourse.Controllers
 {
+    [Route("api/user-permission")]
     [ApiController]
     public class UserPermissionsController : ControllerBase
     {
@@ -16,7 +17,7 @@ namespace OnlineCourse.Controllers
             _userPerService = serviceProvider.GetRequiredService<IUserPerService>();
         }
 
-        [HttpGet("/api/[controller]/get-all-user-permission")]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -29,7 +30,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpGet("/api/[controller]/get-by-userid/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] string id)
         {
             try
@@ -42,7 +43,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpPost("/api/[controller]/create-user-permission")]
+        [HttpPost]
         public async Task<IActionResult> CreateUserPermission(RequestCreateUserPerModel model)
         {
             try
@@ -56,7 +57,7 @@ namespace OnlineCourse.Controllers
         }
 
 
-        [HttpDelete("/api/[controller]/delete-user-permission")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteUserPermission(UserPermissionModel model)
         {
             try

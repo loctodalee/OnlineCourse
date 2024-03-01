@@ -1,4 +1,5 @@
-﻿using Nelibur.ObjectMapper;
+﻿using Microsoft.AspNetCore.Mvc;
+using Nelibur.ObjectMapper;
 using OnlineCourse.Data.Entity.Course;
 using OnlineCourse.Data.Model.Course;
 using OnlineCourse.Data.Model.Course.Request;
@@ -23,10 +24,10 @@ namespace OnlineCourse.Services.Course
             try
             {
                 var listEntity = await _unitOfWork.CourseRepository.GetAll();
-                var validList = listEntity.Where(x => x.IsActive == true).ToList();
-                var model = TinyMapper.Map<List<CourseModel>>(validList);
+                var model = TinyMapper.Map<List<CourseModel>>(listEntity);
                 return model;
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -37,13 +38,18 @@ namespace OnlineCourse.Services.Course
             try
             {
                 var result = await _unitOfWork.CourseRepository.GetSingleById(id);
-                if(result.IsActive == false || result == null)
+                if (result != null)
                 {
-                    throw new Exception("Course Not found");
-                }
-                var model = TinyMapper.Map<CourseModel>(result);
-                return model;
-            } catch (Exception ex)
+
+                    if (result == null)
+                    {
+                        throw new Exception("Course Not found");
+                    }
+                    var model = TinyMapper.Map<CourseModel>(result);
+                    return model;
+                } return null;
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -55,16 +61,17 @@ namespace OnlineCourse.Services.Course
             {
                 var list = await _unitOfWork.CourseRepository.GetAll();
                 var existed = list.Any(x => x.Name == model.Name);
-                if(existed)
+                if (existed)
                 {
                     throw new Exception("Course is existed");
                 }
                 var entity = TinyMapper.Map<CourseEntity>(model);
                 await _unitOfWork.CourseRepository.Add(entity);
-                var resModel = TinyMapper.Map<CourseModel>(entity);
                 _unitOfWork.SaveChanges();
+                var resModel = TinyMapper.Map<CourseModel>(entity);
                 return resModel;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -74,10 +81,19 @@ namespace OnlineCourse.Services.Course
         {
             try
             {
-                var entity = TinyMapper.Map<CourseEntity>(model);
+                //var entity = TinyMapper.Map<CourseEntity>(model);
+                var entity = await _unitOfWork.CourseRepository.GetSingleById(model.Id);
+                if (entity == null)
+                {
+                    throw new Exception("Course is not existed!!");
+                }
+                entity.Name = model.Name;
+                entity.Price = model.Price;
+                entity.Description = model.Description;
                 await _unitOfWork.CourseRepository.Update(entity);
                 _unitOfWork.SaveChanges();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -93,6 +109,7 @@ namespace OnlineCourse.Services.Course
                     throw new Exception("Course not found");
                 }
                 await _unitOfWork.CourseRepository.Delete(existed);
+                _unitOfWork.SaveChanges();
             }
             catch (ConstraintException ex)
             {

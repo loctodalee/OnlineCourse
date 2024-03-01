@@ -5,7 +5,7 @@ using OnlineCourse.Services.Auth.NewFolder;
 
 namespace OnlineCourse.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/actions")]
     [ApiController]
     public class ActController : ControllerBase
     {
@@ -16,14 +16,14 @@ namespace OnlineCourse.Controllers
            ActionService = serviceProvider.GetRequiredService<IActService>();
         }
 
-        [HttpGet("/api/[controller]/get-all")]
+        [HttpGet]
         public async Task<IActionResult> GetAllActions()
         {
             var result = await ActionService.GetActions();
             return Ok(result);
         }
 
-        [HttpPost("/api/[controller]/create-new-action")]
+        [HttpPost]
         public async Task<IActionResult> CreateNewAction(RequestCreateActionModel model)
         {
             try
@@ -36,7 +36,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpGet("/api/[controller]/get-action-byId/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetActionById([FromRoute]string id)
         {
             try
@@ -49,7 +49,7 @@ namespace OnlineCourse.Controllers
             }
         }
 
-        [HttpPut("/api/[controller]/update-action")]
+        [HttpPut]
         public async Task<IActionResult> UpdateAction(ActModel model)
         {
             try
@@ -61,7 +61,7 @@ namespace OnlineCourse.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete("/api/[controller]/delete-action")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteAction(string id)
         {
             try

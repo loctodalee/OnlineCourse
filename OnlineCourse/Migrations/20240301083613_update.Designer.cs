@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineCourse.Data;
 
@@ -11,9 +12,10 @@ using OnlineCourse.Data;
 namespace OnlineCourse.Migrations
 {
     [DbContext(typeof(OnlineCourseDbContext))]
-    partial class OnlineCourseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240301083613_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,6 +233,7 @@ namespace OnlineCourse.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -243,8 +246,7 @@ namespace OnlineCourse.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .IsRequired()
+                    b.Property<double?>("Price")
                         .HasColumnType("float");
 
                     b.HasKey("Id");

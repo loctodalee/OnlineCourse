@@ -9,6 +9,6 @@ namespace OnlineCourse.Data.Model.Course
         public string Description { get; set; }
         public double Price { get; set; }
         public string BeginLessonId {  get; set; }
-        public ICollection<LessonEntity> Lessons { get; set; }
+        public bool IsActive { get; set; }
     }
 }

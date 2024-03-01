@@ -33,6 +33,7 @@ namespace OnlineCourse.Data
                 .AddJsonFile("appsettings.Development.json")
                 .Build();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("Local"));
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
