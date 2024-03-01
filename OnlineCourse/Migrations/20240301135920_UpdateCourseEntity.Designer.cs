@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineCourse.Data;
 
@@ -11,9 +12,10 @@ using OnlineCourse.Data;
 namespace OnlineCourse.Migrations
 {
     [DbContext(typeof(OnlineCourseDbContext))]
-    partial class OnlineCourseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240301135920_UpdateCourseEntity")]
+    partial class UpdateCourseEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,7 +246,6 @@ namespace OnlineCourse.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
-                        .IsRequired()
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -472,7 +473,7 @@ namespace OnlineCourse.Migrations
             modelBuilder.Entity("OnlineCourse.Data.Entity.Course.LessonEntity", b =>
                 {
                     b.HasOne("OnlineCourse.Data.Entity.Course.CourseEntity", "Course")
-                        .WithMany()
+                        .WithMany("Lessons")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -510,7 +511,7 @@ namespace OnlineCourse.Migrations
             modelBuilder.Entity("OnlineCourse.Data.Entity.Order.OrderEntity", b =>
                 {
                     b.HasOne("OnlineCourse.Data.Entity.Course.CourseEntity", "Course")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -546,6 +547,10 @@ namespace OnlineCourse.Migrations
 
             modelBuilder.Entity("OnlineCourse.Data.Entity.Course.CourseEntity", b =>
                 {
+                    b.Navigation("Lessons");
+
+                    b.Navigation("Orders");
+
                     b.Navigation("UserCourseLessonProgresses");
                 });
 

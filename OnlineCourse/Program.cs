@@ -7,6 +7,7 @@ using OnlineCourse.Data;
 using OnlineCourse.Data.Entity.Auth;
 using OnlineCourse.Data.Entity.Course;
 using OnlineCourse.Data.Entity.Order;
+using OnlineCourse.Data.Model;
 using OnlineCourse.Data.Model.Auth;
 using OnlineCourse.Data.Model.Auth.Request;
 using OnlineCourse.Data.Model.Course;
@@ -24,6 +25,8 @@ using OnlineCourse.Services.Course.Interface;
 using OnlineCourse.Services.Email;
 using OnlineCourse.Services.Email.Interface;
 using OnlineCourse.Services.Order;
+using OnlineCourse.Services.Payment.Interface;
+using OnlineCourse.Services.Payment;
 using OnlineCourse.Util;
 using System.Text;
 
@@ -94,7 +97,7 @@ builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IUserPerService, UserPerService>();
 builder.Services.AddScoped<IPerActionService, PerActionService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddTransient<ICourseService, CourseService>();
 builder.Services.AddScoped<ICourseUserService, CourseUserService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
@@ -118,6 +121,11 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer(o =>
 TinyMapperBindingConfiguration.Configure();
 
 
+//config momo
+builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
+builder.Services.AddScoped<IMomoService, MomoService>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -126,6 +134,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
 
 app.UseHttpsRedirection();
 

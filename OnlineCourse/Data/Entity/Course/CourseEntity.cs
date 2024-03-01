@@ -10,9 +10,11 @@ namespace OnlineCourse.Data.Entity.Course
         [Required]
         public string Name { get; set; }
         public string? Description { get; set; }
-        public double? Price { get; set; }
+
+        [Required]
+        public double Price { get; set; }
         public string? BeginLessonId { get; set; }
-        public ICollection<LessonEntity>? Lessons { get; set; }
+        public ICollection<LessonEntity> Lessons { get; set; }
         public ICollection<UserCourseLessonProgressEntity>? UserCourseLessonProgresses { get; set; }
         public ICollection<OrderEntity> Orders { get; set; }
     }
