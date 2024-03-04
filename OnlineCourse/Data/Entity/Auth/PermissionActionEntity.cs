@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineCourse.Data.Entity.Auth
 {
     [Table("tbl_per_action")]
-    public class PermissionActionEntity : SubEntity
+    public class PermissionActionEntity : Entity
     {
         [Required]
         [ForeignKey("PermissionId")]

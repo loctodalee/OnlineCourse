@@ -58,6 +58,14 @@ namespace OnlineCourse.Data
                 .WithMany(l => l.UserCourseLessonProgresses)
                 .HasForeignKey(uc => uc.LessonId)
                 .OnDelete(DeleteBehavior.Restrict);  // No action on delete
+
+            //modelBuilder.Entity<PermissionEntity>()
+            //.HasMany(p => p.Actions)
+            //.WithOne()
+            //.HasForeignKey(pa => pa.PermissionId
+            //);
+
+            //modelBuilder.Entity<PermissionEntity>().Ignore(p => p.Actions);
         }
     }
 }

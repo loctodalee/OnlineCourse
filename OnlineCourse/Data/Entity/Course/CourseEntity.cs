@@ -14,8 +14,8 @@ namespace OnlineCourse.Data.Entity.Course
         [Required]
         public double Price { get; set; }
         public string? BeginLessonId { get; set; }
-        public ICollection<LessonEntity> Lessons { get; set; }
-        public ICollection<UserCourseLessonProgressEntity>? UserCourseLessonProgresses { get; set; }
-        public ICollection<OrderEntity> Orders { get; set; }
+        public virtual ICollection<LessonEntity> Lessons { get; set; }
+        public virtual ICollection<UserCourseLessonProgressEntity>? UserCourseLessonProgresses { get; set; }
+        public virtual ICollection<OrderEntity> Orders { get; set; }
     }
 }

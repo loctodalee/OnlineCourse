@@ -10,5 +10,6 @@ namespace OnlineCourse.Data.Entity.Auth
         public string Name { get; set; }
         [Required]
         public string ActionCode { get; set; }
+        public virtual ICollection<PermissionActionEntity> Actions { get; set; }
     }
 }
