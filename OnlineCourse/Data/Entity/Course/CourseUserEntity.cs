@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace OnlineCourse.Data.Entity.Course
 {
     [Table("tbl_user_course")]
-    public class CourseUserEntity : SubEntity
+    public class CourseUserEntity : Entity
     {
         [Required]
         [ForeignKey("UserId")]

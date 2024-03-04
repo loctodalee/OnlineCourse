@@ -20,7 +20,6 @@ namespace OnlineCourse.Controllers
         public async Task<IActionResult> CreatePaymentUrl(OrderInfoModel model)
         {
             var response = await _momoService.CreatePaymentAsync(model);
-            Redirect(response.PayUrl);
             return Ok(response);
         }
 

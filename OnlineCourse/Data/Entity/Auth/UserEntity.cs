@@ -45,11 +45,11 @@ namespace OnlineCourse.Data.Entity.Auth
 
         public string? RefreshToken { get; set; }
 
-        public ICollection<UserPermissionEntity>? Permissions { get; set; }
-        public ICollection<RefreshTokens>? RefreshTokens { get; set; }
-        public ICollection<OrderEntity>? Orders { get; set; }
-        public ICollection<CourseUserEntity>? Courses { get; set;}
-        public ICollection<UserCourseLessonProgressEntity>? UserCourseLessonProgresses { get; set; }
+        public virtual ICollection<UserPermissionEntity>? Permissions { get; set; }
+        public virtual ICollection<RefreshTokens>? RefreshTokens { get; set; }
+        public virtual ICollection<OrderEntity>? Orders { get; set; }
+        public virtual ICollection<CourseUserEntity>? Courses { get; set;}
+        public virtual ICollection<UserCourseLessonProgressEntity>? UserCourseLessonProgresses { get; set; }
 
     }
 }

@@ -12,9 +12,9 @@ namespace OnlineCourse.Data.Entity.Course
         public virtual CourseEntity Course { get; set; }
         [Required]
         public string Title { get; set; }
-        public string Description { get; set; }
-        public string VideoUrl {  get; set; }
-        public string NextLessonId { get; set; }
-        public ICollection<UserCourseLessonProgressEntity>? UserCourseLessonProgresses { get; set; }
+        public string? Description { get; set; }
+        public string? VideoUrl {  get; set; }
+        public string? NextLessonId { get; set; }
+        public virtual ICollection<UserCourseLessonProgressEntity>? UserCourseLessonProgresses { get; set; }
     }
 }

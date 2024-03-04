@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace OnlineCourse.Data.Entity
 {
+    [Keyless]
     public abstract class SubEntity
     {
         protected SubEntity()
@@ -11,7 +13,6 @@ namespace OnlineCourse.Data.Entity
             LastUpdateTimes = DateTime.Now;
             IsActive = true;
         }
-        [Key]
         public DateTime CreateTimes { get; set; }
         public DateTime LastUpdateTimes { get; set; }
         [DefaultValue(true)]
