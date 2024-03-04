@@ -40,11 +40,6 @@ namespace OnlineCourse.Services.Course
                 var result = await _unitOfWork.CourseRepository.GetSingleById(id);
                 if (result != null)
                 {
-
-                    if (result == null)
-                    {
-                        throw new Exception("Course Not found");
-                    }
                     var model = TinyMapper.Map<CourseModel>(result);
                     return model;
                 } return null;

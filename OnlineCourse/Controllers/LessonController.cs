@@ -98,11 +98,11 @@ namespace OnlineCourse.Controllers
         {
             try
             {
-                await _lessonService.UpdateLesson(newModel);
+                var result = await _lessonService.UpdateLesson(newModel);
                 return Ok(new
                 {
                     Message = "Update successfully!",
-                    Data = newModel
+                    Data = result
                 });
 
             }
@@ -113,7 +113,7 @@ namespace OnlineCourse.Controllers
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLesson(string id)
         {
             try

@@ -9,7 +9,7 @@ namespace OnlineCourse.Services.Course.Interface
         Task<List<LessonModel>> GetAllLessonByCourseId(string courseId);
         Task<LessonModel> GetLessonById(string courseId);
         Task<LessonModel> CreateLesson(string priviousLessonId,RequestCreateLessonModel model);
-        Task UpdateLesson(LessonModel model);
+        Task<LessonModel> UpdateLesson(LessonModel model);
         Task DeleteLesson(string id);
     }
 }

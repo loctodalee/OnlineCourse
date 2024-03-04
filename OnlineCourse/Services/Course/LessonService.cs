@@ -23,13 +23,14 @@ namespace OnlineCourse.Services.Course
                 var validList = list.Where(x => x.IsActive == true).ToList();
                 var model = TinyMapper.Map<List<LessonModel>>(validList);
                 return model;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        public async Task<List<LessonModel>> GetAllLessonByCourseId (string courseId)
+        public async Task<List<LessonModel>> GetAllLessonByCourseId(string courseId)
         {
             try
             {
@@ -37,24 +38,25 @@ namespace OnlineCourse.Services.Course
                 var validList = list.Where(x => x.IsActive == true && x.CourseId == courseId).ToList();
                 var model = TinyMapper.Map<List<LessonModel>>(validList);
                 return model;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        public async Task<LessonModel> GetLessonById(string id)
+        public async Task<LessonModel?> GetLessonById(string id)
         {
             try
             {
                 var entity = await _unitOfWork.LessonRepository.GetSingleById(id);
-                if(entity == null)
+                if (entity != null)
                 {
-                    throw new Exception("Not found");
-                }
-                var model = TinyMapper.Map<LessonModel>(entity);
-                return model;
-            } catch(Exception ex)
+                    var model = TinyMapper.Map<LessonModel>(entity);
+                    return model;
+                } return null;
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -81,7 +83,7 @@ namespace OnlineCourse.Services.Course
                     previousLesson.NextLessonId = entity.Id;
                     await _unitOfWork.LessonRepository.Update(previousLesson);
                 }
-               
+
                 //them moi lesson 
                 await _unitOfWork.LessonRepository.Add(entity);
 
@@ -89,25 +91,28 @@ namespace OnlineCourse.Services.Course
 
                 var resModel = TinyMapper.Map<LessonModel>(entity);
                 return resModel;
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        public async Task UpdateLesson(LessonModel model)
+        public async Task<LessonModel> UpdateLesson(LessonModel model)
         {
             try
             {
                 var exsited = await _unitOfWork.LessonRepository.GetSingleById(model.Id);
-                if(exsited == null)
+                if (exsited == null)
                 {
                     throw new Exception("Not found");
                 }
                 var entity = TinyMapper.Map<LessonEntity>(model);
                 await _unitOfWork.LessonRepository.Update(entity);
                 _unitOfWork.SaveChanges();
-            } catch(Exception ex)
+                return model;
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -119,14 +124,15 @@ namespace OnlineCourse.Services.Course
             {
                 var exsited = await _unitOfWork.LessonRepository.GetSingleById(id);
 
-                if( exsited == null)
+                if (exsited == null)
                 {
                     throw new Exception("Not found");
                 }
 
                 await _unitOfWork.LessonRepository.Delete(exsited);
-                _unitOfWork.SaveChanges();  
-            } catch (Exception ex)
+                _unitOfWork.SaveChanges();
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

@@ -16,7 +16,7 @@ namespace OnlineCourse.Repository.Course
 
         public override Task Update(LessonEntity entity)
         {
-            var existed = context.Lessons.Find(entity);
+            var existed = context.Lessons.Find(entity.Id);
             if (existed == null)
             {
                 throw new Exception("Lesson is not existed!!");
