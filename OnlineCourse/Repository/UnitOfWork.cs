@@ -167,7 +167,7 @@ namespace OnlineCourse.Repository
             {
                 if(lessonRepository == null)
                 {
-                    lessonRepository = new LessonRepository(db);
+                    _lessonRepository = new LessonRepository(db);
                 }
                 return this._lessonRepository;
             }

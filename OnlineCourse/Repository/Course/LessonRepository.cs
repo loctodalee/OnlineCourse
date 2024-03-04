@@ -8,7 +8,6 @@ namespace OnlineCourse.Repository.Course
     public class LessonRepository : BaseRepository<LessonEntity>
     {
         private OnlineCourseDbContext context;
-        private DbSet<LessonEntity> Lessons;
 
         public LessonRepository (OnlineCourseDbContext context) : base(context)
         {

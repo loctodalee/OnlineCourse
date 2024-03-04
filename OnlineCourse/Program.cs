@@ -97,7 +97,6 @@ builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IUserPerService, UserPerService>();
 builder.Services.AddScoped<IPerActionService, PerActionService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddTransient<ICourseService, CourseService>();
 builder.Services.AddScoped<ICourseUserService, CourseUserService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
