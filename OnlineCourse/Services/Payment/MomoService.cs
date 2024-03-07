@@ -7,6 +7,8 @@ using System.Security.Cryptography;
 using System.Text;
 using RestSharp;
 using Newtonsoft.Json;
+using OnlineCourse.Services.Order;
+using OnlineCourse.Repository;
 
 namespace OnlineCourse.Services.Payment
 {
@@ -14,10 +16,14 @@ namespace OnlineCourse.Services.Payment
     {
 
         private readonly IOptions<MomoOptionModel> _options;
+        private IOrderService _orderService;
+        private IUnitOfWork _unitOfWork;
 
-        public MomoService(IOptions<MomoOptionModel> options)
+        public MomoService(IOptions<MomoOptionModel> options, IOrderService orderService, IUnitOfWork unitOfWork)
         {
             _options = options;
+            _orderService = orderService;
+            _unitOfWork = unitOfWork;
         }
         private string ComputeHmacSha256(string message, string secretKey)
         {
@@ -36,12 +42,14 @@ namespace OnlineCourse.Services.Payment
             return hashString;
         }
 
-        public async Task<MomoCreatePaymentResponseModel> CreatePaymentAsync(OrderInfoModel model)
+        public async Task<MomoCreatePaymentResponseModel> CreatePaymentAsync(RequestCreateOrderModel order)
         {
-            model.OrderId = DateTime.UtcNow.Ticks.ToString();
-            model.OrderInfo = "Khách hàng: " + model.FullName + ". Nội dung: " + model.OrderInfo;
+            var model = await _orderService.CreateOrder(order);
+            var user = await _unitOfWork.UserRepository.GetSingleById(model.UserId);
+            var course = await _unitOfWork.CourseRepository.GetSingleById(model.CourseId);
+            var orderInfo = "Khách hàng: " + user.FirstName + user.LastName + ". Nội dung: Mua khóa hoc: " + course;
             var rawData =
-                $"partnerCode={_options.Value.PartnerCode}&accessKey={_options.Value.AccessKey}&requestId={model.OrderId}&amount={model.Amount}&orderId={model.OrderId}&orderInfo={model.OrderInfo}&returnUrl={_options.Value.ReturnUrl}&notifyUrl={_options.Value.NotifyUrl}&extraData=";
+                $"partnerCode={_options.Value.PartnerCode}&accessKey={_options.Value.AccessKey}&requestId={model.Id}&amount={model.Price}&orderId={model.Id}&orderInfo={orderInfo}&returnUrl={_options.Value.ReturnUrl}&notifyUrl={_options.Value.NotifyUrl}&extraData=";
 
             var signature = ComputeHmacSha256(rawData, _options.Value.SecretKey);
 
@@ -57,10 +65,10 @@ namespace OnlineCourse.Services.Payment
                 requestType = _options.Value.RequestType,
                 notifyUrl = _options.Value.NotifyUrl,
                 returnUrl = _options.Value.ReturnUrl,
-                orderId = model.OrderId,
-                amount = model.Amount.ToString(),
-                orderInfo = model.OrderInfo,
-                requestId = model.OrderId,
+                orderId = model.Id,
+                amount = order.Price.ToString(),
+                orderInfo = orderInfo,
+                requestId = model.Id,
                 extraData = "",
                 signature = signature
             };

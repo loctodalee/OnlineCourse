@@ -6,6 +6,5 @@
         public string UserId { get; set; }
         public double Price { get; set; }
         public DateTime Buy_date { get; set; }
-        public bool IsPay { get; set; }
     }
 }

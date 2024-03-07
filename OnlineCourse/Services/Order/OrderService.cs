@@ -89,9 +89,11 @@ namespace OnlineCourse.Services.Order
                     throw new Exception("Order is existed");
                 }
                 var entity = TinyMapper.Map<OrderEntity>(model);
-
+                entity.IsPay = false;
                 await _unitOfWork.OrderRepository.Add(entity);
                 var resModel = TinyMapper.Map<OrderModel>(entity);
+
+                _unitOfWork.SaveChanges();
                 return resModel;
             } catch (Exception ex)
             {

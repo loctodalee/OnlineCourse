@@ -17,7 +17,7 @@ namespace OnlineCourse.Controllers
         }
 
         [HttpPost("/api/[controller]/momo/payment")]
-        public async Task<IActionResult> CreatePaymentUrl(OrderInfoModel model)
+        public async Task<IActionResult> CreatePaymentUrl(RequestCreateOrderModel model)
         {
             var response = await _momoService.CreatePaymentAsync(model);
             return Ok(response);

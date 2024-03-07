@@ -5,6 +5,8 @@ using OnlineCourse.Data.Model.Auth.Request;
 using OnlineCourse.Data.Model.Auth;
 using OnlineCourse.Data.Model.Course.Request;
 using OnlineCourse.Data.Model.Course;
+using OnlineCourse.Data.Model.Order;
+using OnlineCourse.Data.Entity.Order;
 
 namespace OnlineCourse.Configuaration
 {
@@ -54,6 +56,11 @@ namespace OnlineCourse.Configuaration
             TinyMapper.Bind<LessonEntity, LessonModel>();
             TinyMapper.Bind<LessonModel, LessonEntity>();
             TinyMapper.Bind<RequestCreateLessonModel, LessonEntity>();
+
+            TinyMapper.Bind<List<OrderEntity>, List<OrderModel>>();
+            TinyMapper.Bind<OrderEntity, OrderModel>();
+            TinyMapper.Bind<OrderModel, OrderEntity>();
+            TinyMapper.Bind<RequestCreateOrderModel, OrderEntity>();
         }
     }
 }
